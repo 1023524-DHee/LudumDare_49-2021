@@ -22,13 +22,16 @@ public class EnemyCounter : MonoBehaviour
         enemyCounter = GetComponent<TMP_Text>();
 
         GameManager.current.onEnemyDeath += EnemiesKilled;
+        GameManager.current.onPlayerDeath += OnPlayerDeath;
+
+        
 
         currentNumberEnemiesKilled = -1;
         EnemiesKilled();
         UpdateCounter();
     }
 
-    private void EnemiesKilled()
+	private void EnemiesKilled()
     {
         currentNumberEnemiesKilled++;
         UpdateCounter();
@@ -44,6 +47,7 @@ public class EnemyCounter : MonoBehaviour
                     currentPhase = 2;
                     break;
                 case 2:
+                    CameraFollow.current.ChangeVignetteValue(0.5f);
                     GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
@@ -51,6 +55,8 @@ public class EnemyCounter : MonoBehaviour
                     currentPhase = 3;
                     break;
                 case 3:
+                    CameraFollow.current.ChangeVignetteValue(0f);
+                    CameraFollow.current.ChangeChromaticValue(0.5f);
                     GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
@@ -58,6 +64,8 @@ public class EnemyCounter : MonoBehaviour
                     currentPhase = 4;
                     break;
                 case 4:
+                    CameraFollow.current.ChangeVignetteValue(1f);
+                    CameraFollow.current.ChangeChromaticValue(0f);
                     GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
@@ -65,6 +73,8 @@ public class EnemyCounter : MonoBehaviour
                     currentPhase = 5;
                     break;
                 case 5:
+                    CameraFollow.current.ChangeVignetteValue(0f);
+                    CameraFollow.current.ChangeChromaticValue(1f);
                     GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
@@ -72,14 +82,16 @@ public class EnemyCounter : MonoBehaviour
                     currentPhase = 6;
                     break;
                 case 6:
+                    CameraFollow.current.ChangeVignetteValue(0f);
+                    CameraFollow.current.ChangeChromaticValue(0f);
                     GameManager.current.PhaseChange();
+                    GameManager.current.OnGameFinish();
                     DestroyEnemies();
-                    //DO END CREDITS?
+                    currentNumberEnemiesKilled = 0;
                     break;
             }
         }
     }
-
     private void DestroyEnemies()
     {
         Instantiate(destroyer, centerObject.transform.position, Quaternion.identity);
@@ -88,5 +100,22 @@ public class EnemyCounter : MonoBehaviour
     private void UpdateCounter()
     {
         enemyCounter.text = "" + currentNumberEnemiesKilled + "/" + currentNumberEnemiesReq;
+    }
+
+    private void OnPlayerDeath()
+    {
+        StartCoroutine(MultipleDestroyEnemies_Coroutine());
+    }
+
+    private IEnumerator MultipleDestroyEnemies_Coroutine()
+    {
+        DestroyEnemies();
+        yield return new WaitForSeconds(0.5f);
+        DestroyEnemies();
+        yield return new WaitForSeconds(0.5f);
+        DestroyEnemies();
+        yield return new WaitForSeconds(0.5f);
+        DestroyEnemies();
+        yield return new WaitForSeconds(0.5f);
     }
 }

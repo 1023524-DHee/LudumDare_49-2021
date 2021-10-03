@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, ITakeDamage
 {
-    private SpriteRenderer spriteRenderer;
-
     private int currentHealth;
-
-    private bool isFlashing;
 
     public List<GameObject> sprites;
 
@@ -17,8 +13,6 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
 	// Start is called before the first frame update
 	void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
         currentHealth = maxHealth;
     }
 
@@ -26,7 +20,9 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
     {
         int randomSprite = Random.Range(0, sprites.Count);
         GameObject spawnedEffect = Instantiate(sprites[randomSprite], transform.position, Quaternion.Euler(0,0,Random.Range(0,360f)));
+
         spawnedEffect.GetComponent<SpriteRenderer>().sortingLayerName = "DeathEffects";
+
         GameManager.current.EnemyDeath();
         GameManager.current.PlayerHeal(1);
 
@@ -41,23 +37,6 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
         {
             Die();
         }
-
-        if(!isFlashing) StartCoroutine(OnDamageFlash());
-    }
-
-    private IEnumerator OnDamageFlash()
-    {
-        isFlashing = true;
-
-        spriteRenderer.color = Color.black;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.white;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.black;
-        yield return new WaitForSeconds(0.1f);
-        spriteRenderer.color = Color.white;
-
-        isFlashing = false;
     }
 
     public void TakeDamage(int amount)

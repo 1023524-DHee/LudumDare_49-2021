@@ -11,7 +11,7 @@ public class DragShootMovement : MonoBehaviour
 
     private bool buttonReleased;
     private float slowdownCounter;
-    private float maxSlowdownTime = 1f;
+    private float maxSlowdownTime = 0.7f;
 
     public GameObject arrowGameObject;
 
@@ -22,6 +22,8 @@ public class DragShootMovement : MonoBehaviour
     {
         cam = Camera.main;
         playerRB = GetComponent<Rigidbody2D>();
+
+        GameManager.current.onPlayerDeath += OnPlayerDeath;
 
         slowdownCounter = maxSlowdownTime;
     }
@@ -89,6 +91,11 @@ public class DragShootMovement : MonoBehaviour
                 damageable?.TakeDamage(10);
             }
         }
-
 	}
+
+    private void OnPlayerDeath()
+    {
+        CameraFollow.current.TriggerShake2(10f);
+        Destroy(gameObject);
+    }
 }

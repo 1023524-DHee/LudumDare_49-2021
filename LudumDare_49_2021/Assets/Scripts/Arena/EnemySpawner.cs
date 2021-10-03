@@ -18,6 +18,8 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(SpawnEnemy_Coroutine());
 
         GameManager.current.onPhaseChange += DecrementSpawnInterval;
+        GameManager.current.onPlayerDeath += OnPlayerDeath;
+        GameManager.current.onGameFinish += OnPlayerDeath;
     }
 
     private void SpawnEnemy()
@@ -37,6 +39,11 @@ public class EnemySpawner : MonoBehaviour
 
     private void DecrementSpawnInterval()
     {
-        spawnInterval -= 0.35f;
+        spawnInterval = Mathf.Clamp(spawnInterval - 0.35f, 0.2f, float.MaxValue);
+    }
+
+    private void OnPlayerDeath()
+    {
+        StopAllCoroutines();
     }
 }
