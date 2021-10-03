@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    private float spawnInterval = 2f;
+
     public List<GameObject> enemyPrefabs;
 
     public List<Transform> waypoints1;
@@ -14,6 +16,8 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnEnemy_Coroutine());
+
+        GameManager.current.onPhaseChange += DecrementSpawnInterval;
     }
 
     private void SpawnEnemy()
@@ -27,7 +31,12 @@ public class EnemySpawner : MonoBehaviour
     private IEnumerator SpawnEnemy_Coroutine()
     {
         SpawnEnemy();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(spawnInterval);
         StartCoroutine(SpawnEnemy_Coroutine());
+    }
+
+    private void DecrementSpawnInterval()
+    {
+        spawnInterval -= 0.3f;
     }
 }

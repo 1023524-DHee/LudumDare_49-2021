@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
     {
         healthBar = GetComponent<Image>();
 
-        GameManager.current.onChangeHealthDrain += SetDrainAmount;
+        GameManager.current.onPhaseChange += SetDrainAmount;
         GameManager.current.onPlayerHeal += HealPlayer;
 
         currentHealth = maxHealth;
@@ -41,8 +41,8 @@ public class PlayerHealth : MonoBehaviour
         healthBar.fillAmount = currentHealth/maxHealth;
     }
 
-    public void SetDrainAmount(float amount)
+    public void SetDrainAmount()
     {
-        drainAmount = amount;
+        drainAmount += 0.5f;
     }
 }

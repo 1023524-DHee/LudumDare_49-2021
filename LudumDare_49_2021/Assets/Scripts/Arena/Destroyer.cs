@@ -24,9 +24,12 @@ public class Destroyer : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Enemy"))
+		if (Random.Range(0, 2) == 1)
 		{
-			Destroy(collision.gameObject);
+			if (collision.CompareTag("Enemy"))
+			{
+				Destroy(collision.gameObject);
+			}
 		}
 	}
 }

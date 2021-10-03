@@ -6,14 +6,15 @@ public class DragShootMovement : MonoBehaviour
 {
     private Rigidbody2D playerRB;
     private Camera cam;
-	public GameObject arrowGameObject;
-
-    private Vector2 currentForce;
-    private Vector3 startPoint;
+	
     private Vector3 endPoint;
 
-    public Vector2 minPower;
-    public Vector2 maxPower;
+    private bool buttonReleased;
+    private float slowdownCounter;
+    private float maxSlowdownTime = 1f;
+
+    public GameObject arrowGameObject;
+
     public float powerMultiplier;
 
     // Start is called before the first frame update
@@ -21,6 +22,8 @@ public class DragShootMovement : MonoBehaviour
     {
         cam = Camera.main;
         playerRB = GetComponent<Rigidbody2D>();
+
+        slowdownCounter = maxSlowdownTime;
     }
 
     // Update is called once per frame
@@ -39,22 +42,28 @@ public class DragShootMovement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
 		{
-			SetTimeScale(0.05f);
+            slowdownCounter = maxSlowdownTime;
+            SetTimeScale(0.1f);
 
 			arrowGameObject.SetActive(true);
 		}
 
-		if (Input.GetMouseButtonUp(0))
-		{
-			endPoint = cam.ScreenToWorldPoint(Input.mousePosition);
-			endPoint.z = 15;
+        if (Input.GetMouseButton(0))
+        {
+            slowdownCounter = Mathf.Clamp(slowdownCounter - Time.unscaledDeltaTime, 0, float.MaxValue);
+        }
 
-			//currentForce = new Vector2(Mathf.Clamp(endPoint.x - transform.position.x, minPower.x, maxPower.x), Mathf.Clamp(endPoint.y - transform.position.y, minPower.y, maxPower.y));
-			playerRB.velocity = transform.up * powerMultiplier;
+        if (Input.GetMouseButtonUp(0) || slowdownCounter <= 0f)
+        {
+            endPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+            endPoint.z = 15;
 
-			SetTimeScale(1f);
-			arrowGameObject.SetActive(false);
-		}
+            playerRB.velocity = transform.up * powerMultiplier;
+
+            buttonReleased = true;
+            SetTimeScale(1f);
+            arrowGameObject.SetActive(false);
+        }
 	}
 
 	private void SetTimeScale(float scaleAmount)

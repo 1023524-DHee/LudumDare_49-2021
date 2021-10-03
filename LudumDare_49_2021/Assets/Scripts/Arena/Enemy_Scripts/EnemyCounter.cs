@@ -39,35 +39,41 @@ public class EnemyCounter : MonoBehaviour
             switch (currentPhase)
             {
                 case 1:
+                    GameManager.current.PhaseChange();
                     currentNumberEnemiesKilled = 0;
                     currentNumberEnemiesReq = baseNumberEnemiesReq * 1;
                     currentPhase = 2;
                     break;
                 case 2:
+                    GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
                     currentNumberEnemiesReq = Mathf.RoundToInt(baseNumberEnemiesReq * 1.5f);
                     currentPhase = 3;
                     break;
                 case 3:
+                    GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
                     currentNumberEnemiesReq = baseNumberEnemiesReq * 2;
                     currentPhase = 4;
                     break;
                 case 4:
+                    GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
                     currentNumberEnemiesReq = Mathf.RoundToInt(baseNumberEnemiesReq * 2.5f);
                     currentPhase = 5;
                     break;
                 case 5:
+                    GameManager.current.PhaseChange();
                     DestroyEnemies();
                     currentNumberEnemiesKilled = 0;
                     currentNumberEnemiesReq = baseNumberEnemiesReq * 3;
                     currentPhase = 6;
                     break;
                 case 6:
+                    GameManager.current.PhaseChange();
                     DestroyEnemies();
                     //DO END CREDITS?
                     break;
