@@ -45,6 +45,7 @@ public class DragShootMovement : MonoBehaviour
             slowdownCounter = maxSlowdownTime;
             SetTimeScale(0.1f);
 
+            buttonReleased = false;
 			arrowGameObject.SetActive(true);
 		}
 
@@ -53,12 +54,17 @@ public class DragShootMovement : MonoBehaviour
             slowdownCounter = Mathf.Clamp(slowdownCounter - Time.unscaledDeltaTime, 0, float.MaxValue);
         }
 
-        if (Input.GetMouseButtonUp(0) || slowdownCounter <= 0f)
+        if ((Input.GetMouseButtonUp(0) && !buttonReleased) || slowdownCounter <= 0f)
         {
             endPoint = cam.ScreenToWorldPoint(Input.mousePosition);
             endPoint.z = 15;
 
             playerRB.velocity = transform.up * powerMultiplier;
+
+            if (slowdownCounter <= 0f)
+            {
+                slowdownCounter = 999f;
+            }
 
             buttonReleased = true;
             SetTimeScale(1f);

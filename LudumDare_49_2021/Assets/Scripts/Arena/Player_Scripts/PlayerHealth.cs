@@ -43,6 +43,6 @@ public class PlayerHealth : MonoBehaviour
 
     public void SetDrainAmount()
     {
-        drainAmount += 0.5f;
+        drainAmount += 0.3f;
     }
 }

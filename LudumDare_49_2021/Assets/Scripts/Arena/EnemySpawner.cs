@@ -37,6 +37,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void DecrementSpawnInterval()
     {
-        spawnInterval -= 0.3f;
+        spawnInterval -= 0.35f;
     }
 }

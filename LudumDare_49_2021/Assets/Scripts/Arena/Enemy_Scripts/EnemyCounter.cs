@@ -23,9 +23,8 @@ public class EnemyCounter : MonoBehaviour
 
         GameManager.current.onEnemyDeath += EnemiesKilled;
 
-        currentNumberEnemiesReq = baseNumberEnemiesReq;
-
-        DestroyEnemies();
+        currentNumberEnemiesKilled = -1;
+        EnemiesKilled();
         UpdateCounter();
     }
 
