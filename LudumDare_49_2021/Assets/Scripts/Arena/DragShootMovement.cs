@@ -31,19 +31,17 @@ public class DragShootMovement : MonoBehaviour
 
     private void CheckInput()
     {
-		if (Input.GetMouseButtonDown(0))
+        Vector3 currentPoint = cam.ScreenToWorldPoint(Input.mousePosition);
+        currentPoint.z = 15;
+
+        float angle = Mathf.Atan2(currentPoint.y - transform.position.y, currentPoint.x - transform.position.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+
+        if (Input.GetMouseButtonDown(0))
 		{
 			SetTimeScale(0.05f);
 
 			arrowGameObject.SetActive(true);
-		}
-
-		if (Input.GetMouseButton(0))
-		{
-			Vector3 currentPoint = cam.ScreenToWorldPoint(Input.mousePosition);
-			currentPoint.z = 15;
-
-			arrowGameObject.GetComponent<TrajectoryLine>().SetRotation(currentPoint);
 		}
 
 		if (Input.GetMouseButtonUp(0))
@@ -51,15 +49,13 @@ public class DragShootMovement : MonoBehaviour
 			endPoint = cam.ScreenToWorldPoint(Input.mousePosition);
 			endPoint.z = 15;
 
-			currentForce = new Vector2(Mathf.Clamp(endPoint.x - transform.position.x, minPower.x, maxPower.x), Mathf.Clamp(endPoint.y - transform.position.y, minPower.y, maxPower.y));
-			playerRB.velocity = currentForce * powerMultiplier;
+			//currentForce = new Vector2(Mathf.Clamp(endPoint.x - transform.position.x, minPower.x, maxPower.x), Mathf.Clamp(endPoint.y - transform.position.y, minPower.y, maxPower.y));
+			playerRB.velocity = transform.up * powerMultiplier;
 
 			SetTimeScale(1f);
 			arrowGameObject.SetActive(false);
 		}
 	}
-
-
 
 	private void SetTimeScale(float scaleAmount)
     {

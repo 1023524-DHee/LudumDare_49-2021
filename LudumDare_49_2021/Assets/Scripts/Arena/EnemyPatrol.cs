@@ -8,16 +8,15 @@ public class EnemyPatrol : MonoBehaviour
     private Transform currentWaypoint;
 
     private bool waypointsSet;
-
     private bool finishWaypoint1;
     private bool finishWaypoint2;
     private bool finishWaypoint3;
 
-    public Transform finalWaypoint;
-
     private List<Transform> waypoints1;
     private List<Transform> waypoints2;
     private List<Transform> waypoints3;
+
+    public Transform finalWaypoint;
 
     // Start is called before the first frame update
     void Start()

@@ -27,7 +27,8 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
         int randomSprite = Random.Range(0, sprites.Count);
         GameObject spawnedEffect = Instantiate(sprites[randomSprite], transform.position, Quaternion.Euler(0,0,Random.Range(0,360f)));
         spawnedEffect.GetComponent<SpriteRenderer>().sortingLayerName = "DeathEffects";
-
+        GameManager.current.EnemyDeath();
+        GameManager.current.PlayerHeal(1);
 
         Destroy(gameObject);
     }
